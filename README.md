@@ -1,2 +1,2 @@
 # rpn_calc
-Reverse Polish Notation comman line calculator
+Reverse Polish Notation command line calculator
