@@ -16,7 +16,7 @@ For more information on RPN please see <https://en.wikipedia.org/wiki/Reverse_Po
 
 **rpn_calc** converts all numbers into double precision float point numbers internally.
 That means that even if the operands appear to be integers, the result will be a double.
-In order to get an integer result functions like `round` or `floor` should be used.
+In order to get an integer result functions like `round` or `trunc` should be used.
 
 For example:
 
@@ -25,6 +25,8 @@ For example:
     ./rpn_calc 3 5 / round
     1
     ./rpn_calc 3 5 / floor
+    0
+    ./rpn_calc 3 5 / trunc
     0
 
 The operands doesn't have to be integers only. **rpn_calc** supports different formats for float point operands:

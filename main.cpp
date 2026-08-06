@@ -84,8 +84,14 @@ namespace
 
     constexpr auto UNKNOWN_TOKEN = "Unknown token";
 
+    void printVersion()
+    {
+        std::puts( "rpn_calc v. 1.0.0" );
+    }
+
     void printHelp( lexer::Lexer &lexer )
     {
+        printVersion();
         std::puts( "Calculates the expression in Reverse Polish Notation. The expression comes as command line arguments." );
         std::puts( "For example: ./rpn_calc 1 2 3 4 5 - - - -" );
         std::puts( "-h or --help keywordrs will cause the calculator stop evaluating the expression and print this help." );
@@ -110,6 +116,7 @@ int main (int argc, char *argv[]) {
 
     aLexer.addKeyword( "-h",[&aLexer](){ printHelp( aLexer ); std::exit( EXIT_SUCCESS ); }, "Prints this help and exits" );
     aLexer.addKeyword( "--help",[&aLexer](){ printHelp( aLexer ); std::exit( EXIT_SUCCESS ); }, "Prints this help and exits" );
+    aLexer.addKeyword( "--version",[](){ printVersion(); std::exit( EXIT_SUCCESS ); }, "Prints version and exits." );
 
     aLexer.addKeyword( "+", [&mem](){ do_calc(mem, []( double a, double b ) -> double { return a + b; } ); }, "Adds two operands" );
     aLexer.addKeyword( "-", [&mem](){ do_calc(mem, []( double a, double b ) -> double { return a - b; } ); }, "Subtructs y-x, where x was added after y (example: 15 3 -; y = 15, x = 3)" );
@@ -168,7 +175,7 @@ int main (int argc, char *argv[]) {
     aLexer.addKeyword( "round", [&mem](){ do_calc(mem, []( double a ){ return std::round( a ); } ); }, "Calculates nearest integer, rounding away from zero in halfway cases" );
 
     aLexer.addKeyword( "rnd", [&mem](){ do_calc(mem, [](){ return ::rnd(); } ); }, "Generate a random value from in range [0.0,1.0)" );
-    
+
     // Constants
     aLexer.addKeyword( "e", [&mem](){ do_calc(mem, [](){ return std::numbers::e; } ); }, "The mathematical constant e" );
     aLexer.addKeyword( "log2e", [&mem](){ do_calc(mem, [](){ return std::numbers::log2e; } ); }, "log2(e) constant" );
@@ -198,6 +205,12 @@ int main (int argc, char *argv[]) {
     aLexer.addKeyword( "EGAMMA", [&mem](){ do_calc(mem, [](){ return std::numbers::egamma; } ); }, "The Euler–Mascheroni constant" );
     aLexer.addKeyword( "PHI", [&mem](){ do_calc(mem, [](){ return std::numbers::phi; } ); }, "Golden ratio constant" );
 
+
+    if( argc == 1 )
+    {
+        printHelp( aLexer );
+        return EXIT_SUCCESS;
+    }
 
     for( int i = 1; i < argc; ++i )
     {
@@ -230,7 +243,7 @@ int main (int argc, char *argv[]) {
         }
     }
 
-    std::puts( std::format( "{}", mem.top() ).c_str() );
+    if( !mem.empty() ) std::puts( std::format( "{}", mem.top() ).c_str() );
 
     return EXIT_SUCCESS;
 }
