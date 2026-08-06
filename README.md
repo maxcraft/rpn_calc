@@ -14,6 +14,39 @@ For example:
 
 For more information on RPN please see <https://en.wikipedia.org/wiki/Reverse_Polish_notation>
 
+**rpn_calc** converts all numbers into double precision float point numbers internally.
+That means that even if the operands appear to be integers, the result will be a double.
+In order to get an integer result functions like `round` or `floor` should be used.
+
+For example:
+
+    ./rpn_calc 3 5 /
+    0.6
+    ./rpn_calc 3 5 / round
+    1
+    ./rpn_calc 3 5 / floor
+    0
+
+The operands doesn't have to be integers only. **rpn_calc** supports different formats for float point operands:
+
+    ./rpn_calc 1e2
+    100
+    ./rpn_calc 1.021e2
+    102.1
+    ./rpn_calc 1.021e-2
+    0.01021
+    ./rpn_calc 0.24
+    0.24
+    ./rpn_calc .24
+    0.24
+    ./rpn_calc -.24
+    -0.24
+
+
+Additional to four main operations `+`, `-`, `*`, `/`, **rpn_calc** supports different constants and functions,
+like: `e`, `pi`, `sin`, `cos`, `rnd`. Run `./rpn_calc --help` for the full list of supported constants
+and functions.
+
 ## Build
 
 **rpn_calc** uses cmake to build the executable. So standard cmake approach works.
@@ -35,6 +68,6 @@ One might need to run the installation under ***root*** in order to install **rp
 
 ## LICENSE
 
-GNU Public License v.3.
+GNU General Public License v.3.
 
 
